@@ -57,5 +57,31 @@ That should have it so that the "cone" can move (if dragged) around the green ar
 
 ## Candidates
 
+- [SolveSpace](https://solvespace.com/index.pl)
 
+   - "free (GPLv3) parametric 3d CAD tool"
+   - solver is (maybe) separable from the code base
+   - [Rebase the emscripten port to master](https://github.com/solvespace/solvespace/issues/1037) is the ticket
+
+- [Kiwi.js](https://github.com/IjzerenHein/kiwi.js/)
+
+   - "Fast TypeScript implementation of the Cassowary constraint solving algorithm"
+
+- [Constraints](https://github.com/Michael-F-Bryan/constraints)
+
+  - tipped by `pkahler` of SolveSpace
+
+- [Gecode](https://www.gecode.org)
+
+   - "Generic Constraint Development Environment"
+
+That should be enough that at least one of the candidates proves useful, in the JavaScript environment.
+
+
+||language|pros|cons|
+|---|---|---|---|
+|SolveSpace|C++|+ active community|- GPL3|
+|Kiwi.js|JavaScript|
+|Constraints|Rust|
+|Gecode|C++|
 

@@ -1,0 +1,24 @@
+{
+  "name": "@local/kiwi-candidate",
+  "description": "Trying out kiwi.js - ",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cover": "node cover.js"
+  },
+  "devDependencies": {
+    "kiwi.js": "^1.1.2"
+  },
+  "//": {
+    "": [
+      "This serves for pulling in libraries and tools used commonly in the subpackages, so that a) version choice is in",
+      "one place and b) we save both download bandwidth and disk space.",
+      "",
+      "Some tools ('wait-on', 'concurrently') are not here. Those are seen as implementation details of the particular",
+      "submodules (so if you use a package in two subpackages, it does not mean you must declare it here)."
+    ],
+    "scripts": {
+      "$BUILD_ID": "Can be used as an indication of Cloud Build."
+    }
+  }
+}
