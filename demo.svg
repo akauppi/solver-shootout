@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120">
+
+  <!-- large arc -->
+  <path d="M 50 20
+    a 30 30 0 1 0 50 0
+    " stroke="black" fill="green" stroke-width="2" fill-opacity="0.1"
+    data-c-export="large-arc: a"
+    data-c-constraints="a isFixed"
+  />
+
+  <!-- cone -->
+  <path d="M 120 50
+    a 15 15 1 0 1 0 -30
+    l 60 15
+    z
+  " stroke="black" fill="maroon" stroke-width="2" fill-opacity="0.1"
+    data-c-constraints="
+      a isTangentWith large-arc
+      (a.midpoint to l) isPerpendicularTo large-arc
+    "
+  />
+</svg>
