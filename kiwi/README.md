@@ -16,3 +16,10 @@ $ npm install
 $ node cover.js
 Figured right to be: 500
 ```
+
+## Run our case
+
+```
+$ node cup-and-cone.js
+...
+```

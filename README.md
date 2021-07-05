@@ -66,6 +66,7 @@ That should have it so that the "cone" can move (if dragged) around the green ar
 - [Kiwi.js](https://github.com/IjzerenHein/kiwi.js/)
 
    - "Fast TypeScript implementation of the Cassowary constraint solving algorithm"
+   - Cassowary's [problem domain seems to be that of rectangular layouts](https://github.com/slightlyoff/cassowary.js). Not anywhere near CAD complexity (tangents etc.). Liked this at first, but it just doesn't cut it.. :(
 
 - [Constraints](https://github.com/Michael-F-Bryan/constraints)
 
@@ -78,10 +79,10 @@ That should have it so that the "cone" can move (if dragged) around the green ar
 That should be enough that at least one of the candidates proves useful, in the JavaScript environment.
 
 
-||language|pros|cons|
-|---|---|---|---|
-|SolveSpace|C++|+ active community|- GPL3|
-|Kiwi.js|JavaScript|
+||language|ease of getting started|support/relevance|features|comments/risks|
+|---|---|---|---|---|---|
+|SolveSpace|C++|...|active community||+ <br />- GPL3;<br />solver not clearly separated: [#1037](https://github.com/solvespace/solvespace/issues/1037)|
+|Kiwi.js|JavaScript (TypeScript)|⭐️⭐️⭐️ absolute ease! Good docs; everything worked!|...stopped in 2019?|💥🚫linear constraints only (no circles, tangents, curves)|
 |Constraints|Rust|
 |Gecode|C++|
 
