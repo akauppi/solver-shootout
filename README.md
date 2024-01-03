@@ -72,6 +72,10 @@ That should have it so that the "cone" can move (if dragged) around the green ar
 
   - tipped by `pkahler` of SolveSpace
 
+  The solver itself is algebraic "only", but the author is applying it to geometric (CAD) use.
+
+  - [Geometric Constraint Solvers Part 1: Algebraic Expressions](https://adventures.michaelfbryan.com/posts/constraints-part-1-expressions/) (blog, Jul 2020)
+
 - [Gecode](https://www.gecode.org)
 
    - "Generic Constraint Development Environment"
@@ -82,7 +86,7 @@ That should be enough that at least one of the candidates proves useful, in the 
 ||language|ease of getting started|support/relevance|features|comments/risks|
 |---|---|---|---|---|---|
 |SolveSpace|C++|...|active community||+ <br />- GPL3;<br />solver not clearly separated: [#1037](https://github.com/solvespace/solvespace/issues/1037)|
-|Kiwi.js|JavaScript (TypeScript)|⭐️⭐️⭐️ absolute ease! Good docs; everything worked!|...stopped in 2019?|💥🚫linear constraints only (no circles, tangents, curves)|
 |Constraints|Rust|
 |Gecode|C++|
+|Kiwi.js|JavaScript (TypeScript)|⭐️⭐️⭐️ absolute ease! Good docs; everything worked!|...stopped in 2019?|💥🚫linear constraints only (no circles, tangents, curves)|
 
