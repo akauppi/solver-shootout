@@ -1,0 +1,191 @@
+#
+# sample.txt
+#
+# The necessary equations as text.
+#
+
+# Define the parameters we want to have for each element; then setting eg. the start/end points becomes adding constraints
+# to them. (AVOID having parameters that have a read-write relationship to each other)
+#
+arc_green {
+  // start: [50,20],
+  // end: [100,20],
+  center: [75,3.417],
+  r: 30,
+  start-deg: 56.3
+  end-deg: -56.3
+}
+
+arc_pink {
+  // start: [120,50],
+  // end: [120,20],
+  center: [120,35],
+  r: 15,
+  start-deg: 180
+  end-deg: 0
+
+  // derived:
+  start: [x,y],     // based on '.center', '.r', '.start-deg'
+  end: [x,y]        // based on '.center', '.r', '.end-deg'
+}
+
+line_pink {
+  start: [120,50],
+  end: [180,65]
+}
+
+# --- Equations (as string)
+
+# variables: x,y (point that travels on the arc)
+
+# green arc
+((x - 75 /*arc_green.center.x*/)^2 + (y - 3.417 /*arc_green.center.y*/ )^2) - 30 /*arc_green.r*/ ^2 = 0
+
+# pink arc
+((x - 120 /*arc_pink.center.x*/)^2 + (y - 35 /*arc_pink.center.y*/)^2) - 15^2 = 0
+
+#NOTE:
+#   Pink arc's start/end would be a qualifying condition that always passes (we leave it out, here)
+
+# pink cone line / start
+line_pink.start.x - arc_pink.end.x = 0
+line_pink.start.y - arc_pink.end.y = 0
+
+# Line from '[x,y]' to arc-pink.center passes through the tip of the cone
+
+angleDeg([x,y], arc_pink.center) - angleDeg(arc_pink.center, line_pink.end) = 0
+
+# Qualification conditions:
+#
+# Things that cannot be used in finding an optimal, but can be used (once a candidate value/values are there), to
+# qualify a solution.
+#
+angleDegInRange( [75,3.417] /*arc_green.center*/, [x,y], 56.3 /*start-deg*/, -56.3 /*end-deg*/ )
+
+
+
+
+#arc-green is fixed
+
+#arc-pink.mid is on arc-green
+line(arc-pink.mid, line-pink.end) is perpendicularWith arc-green
+[arc-pink.start, arc-pink.end] are symmetricalOver line(arc-pink.mid, line-pink.end))
+arc-pink.r is fixed
+line(arc-pink.mid, line-pink.end).length is fixed
+`;
+
+// Make the system fully defined; the remaining ones are the free variables
+//
+const steeringVars = `
+angle: angle-deg(line-pink.start, arc-green.center)
+`;
+
+// Feed in vars & constraints
+// ..here
+
+// Suggest a solution
+// ..here
+
+// Steer
+//
+//steer("angle", 120)
+// ..read the changed values
+
+
+// Trying to do the above, in code..
+//
+import { Solver, Variable, Strength, Constraint, Expression, Operator } from "kiwi.js"
+
+// Variables
+//
+const arcGreenStart = createVarP([50,20])
+const arcGreenEnd = createVarP([100,20])
+const arcGreenR = createVarDist(30)
+const arcGreenStartDeg = createVarAngle(56.3)
+
+const arcPinkStart = createVarP([120,50])
+const arcPinkEnd = createVarP([120,20])
+const arcPinkR = createVarDist(15)
+const arcPinkStartDeg = createVarAngle(180)
+
+const linePinkStart = createVarP([120,50])
+const linePinkEnd = createVarP([180,65])
+
+// Help geometry
+//
+const arcPinkMid = midPointOfArc(arcGreenStart, arcGreenEnd, arcGreenR, arcGreenStartDeg)
+
+// Constraints
+//
+const angleDeg = new Variable();    // the degree of freedom
+
+const solver = new Solver();
+
+// Nothing in arc green moves
+[arcGreenStart, arcGreenEnd, arcGreenR, arcGreenStartDeg].forEach( x => { x.isFixed() } )
+
+// arc-pink.mid is on arc-green
+//
+// tbd. Is there a ready expression / constraint for "point is on arc"?
+
+...
+//solver.addConstraint(new Constraint(new Expression([-1, right], left, width), Operator.Eq));  // MODEL
+
+// line(arc-pink.mid, line-pink.end) is perpendicularWith arc-green
+
+...
+
+// [arc-pink.start, arc-pink.end] are symmetricalOver line(arc-pink.mid, line-pink.end))
+
+...
+
+//arc-pink.r is fixed
+arcPinkR.isFixed();
+
+//line(arc-pink.mid, line-pink.end).length is fixed
+
+// Solve the constraints
+solver.updateVariables();
+
+console.log("Figured angle to be:", angleDeg.value())
+
+// Steer the angle
+angleDeg.setValue(40)
+solver.updateVariables()
+
+console.log("Moved to:", {
+  linePinkEnd: `[ ${linePinkEnd[0].value()}, ${linePinkEnd[1].value()} ]`
+})
+
+
+//---
+// Functions that make it happen
+
+function createVarAngle(deg) {  // (num) => Variable
+  const v = new Variable();
+  solver.suggestValue(v, deg);
+}
+
+function createVarDist(dist) {  // (num) => Variable
+  const v = new Variable();
+  solver.suggestValue(v, deg);
+}
+
+function createVarP([x,y]) {    // ([num,num]) => [Variable, Variable]
+  return [
+    createVarDist(x),
+    createVarDist(y)
+  ]
+}
+
+//const left = new Variable();
+//solver.addEditVariable(left, Strength.strong);
+//solver.suggestValue(left, 100);
+
+function midPointOfArc(start, end, r, startDeg) {   // (...) => [Variable, Variable]
+
+  // tbd. describe the relationship of mid-point on the arc with the arc parameters (so that changes can happen both
+  //    ways).
+  //
+  throw new
+}
